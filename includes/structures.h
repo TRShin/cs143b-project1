@@ -2,7 +2,7 @@
 
 struct process
 {
-	int state;
+	bool state;
 	int parent;
 	list<int> children;
 	list<int> resources;
@@ -10,6 +10,6 @@ struct process
 
 struct resource
 {
-	int state;
+	bool state;
 	list<int> waitlist;
 };

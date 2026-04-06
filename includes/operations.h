@@ -1,19 +1,16 @@
 #include "structure.h";
 
-process PCB[n];
-resource RCB[n];
-
 // Operations on Processes
 void create();
 void destroy(process j);
 
 // Operations on Resources
 void request(resource r);
-void release(resource r)4
+void release(resource r);
 
 // Timesharing and the Scheduler
 void timeout();
 void scheduler();
 
 // Initialize
-void init();
+void init(process PCB[], resource RCB[], list<process> RL);

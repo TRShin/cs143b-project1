@@ -14,4 +14,8 @@ void timeout();
 void scheduler();
 
 // Initialize
-void init();
+void init(process PCB[], resource RCB[], list<process> RL)
+{
+	for (int i = 1; i < n - 1; i++) {}
+	for (int i = 0; i < n - 1; i++) {}
+}
