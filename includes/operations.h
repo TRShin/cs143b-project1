@@ -1,4 +1,4 @@
-#include "structure.h";
+#include "structure.h"
 
 // Operations on Processes
 void create();
@@ -13,4 +13,4 @@ void timeout();
 void scheduler();
 
 // Initialize
-void init(process PCB[], resource RCB[], list<process> RL);
+void init();
