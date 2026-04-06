@@ -1,10 +1,8 @@
-#include "structure.h";
-
-process PCB[n];
-resource RCB[n];
+#include "operations.h";
 
 // Operations on Processes
-void create();
+void create() {}
+
 void destroy(process j);
 
 // Operations on Resources
