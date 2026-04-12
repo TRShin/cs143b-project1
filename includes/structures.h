@@ -2,7 +2,7 @@
 
 struct process
 {
-	bool state;
+	bool state;				// Ready = TRUE, blocked = FALSE
 	int parent;
 	list<int> children;
 	list<int> resources;
@@ -10,6 +10,6 @@ struct process
 
 struct resource
 {
-	bool state;
+	bool state;				// Allocated = TRUE, else FALSE
 	list<int> waitlist;
 };

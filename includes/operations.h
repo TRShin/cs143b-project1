@@ -2,11 +2,11 @@
 
 // Operations on Processes
 void create();
-void destroy(process j, int &npd);
+void destroy(int j, int &npd);
 
 // Operations on Resources
-void request(resource r);
-void release(resource r);
+void request(int r);
+void release(int r);
 
 // Timesharing and the Scheduler
 void timeout();
