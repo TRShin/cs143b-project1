@@ -37,7 +37,19 @@ void create()
 	cout << "Process " << index << " created" << endl;
 }
 
-void destroy(process j) {}
+void destroy(process j, int &npd)
+{
+	auto children_copy = PCB[j].children;
+	for (int i : children_copy) {
+		destroy(i, npd);
+	}
+
+	PCB[PCB[j].parent].children.remove(j);
+	RL.remove(j);
+	PCB[j] = { false, 0, {}, {} };
+	//release all resources
+	npd++;
+}
 
 // Operations on Resources
 void request(resource r) {}

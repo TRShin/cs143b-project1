@@ -27,9 +27,10 @@ int main(int argc, char* argv[])
 		}
 
 		else if (a1 == "de") {
-			int val;
+			int val, num_p_dest = 0;
 			if (args >> val) {
-				destroy(val)
+				destroy(val, &num_p_dest);
+				cout << num_p_dest << " processes destroyed" << end;
 			}
 			else continue;
 		}

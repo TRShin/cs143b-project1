@@ -2,7 +2,7 @@
 
 // Operations on Processes
 void create();
-void destroy(process j);
+void destroy(process j, int &npd);
 
 // Operations on Resources
 void request(resource r);
