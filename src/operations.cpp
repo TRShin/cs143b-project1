@@ -1,4 +1,6 @@
 #include "operations.h"
+#include "helpers.h"
+#include <iostream>
 
 using namespace std;
 
@@ -46,7 +48,7 @@ void destroy(int j, int &npd)
 
 	PCB[PCB[j].parent].children.remove(j);
 	RL.remove(j);
-	for (int r = 0; r < 4; r++;) RCB[r].waitlist.remove(j);
+	for (int r = 0; r < 4; r++) RCB[r].waitlist.remove(j);
 	release_all(j);
 	PCB[j] = { false, 0, {}, {} };
 	npd++;

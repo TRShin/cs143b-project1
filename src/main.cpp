@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
 			int val, num_p_dest = 0;
 			if (args >> val) {
 				destroy(val, num_p_dest);
-				cout << num_p_dest << " processes destroyed" << end;
+				cout << num_p_dest << " processes destroyed" << endl;
 			}
 			else continue;
 		}

@@ -1,16 +1,16 @@
-#include "structure.h"
+#pragma once
+#include "structures.h"
+#include <list>
+using std::list;
 
-// Operations on Processes
+extern process PCB[16];
+extern resource RCB[4];
+extern list<int> RL;
+
 void create();
-void destroy(int j, int &npd);
-
-// Operations on Resources
+void destroy(int j, int& npd);
 void request(int r);
 void release(int r);
-
-// Timesharing and the Scheduler
 void timeout();
 void scheduler();
-
-// Initialize
 void init();

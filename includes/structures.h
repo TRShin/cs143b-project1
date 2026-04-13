@@ -1,4 +1,7 @@
-#include <list>;
+#pragma once
+
+#include <list>
+using std::list;
 
 struct process
 {
