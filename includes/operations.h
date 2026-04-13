@@ -5,9 +5,9 @@ using std::list;
 
 extern process PCB[16];
 extern resource RCB[4];
-extern list<int> RL;
+extern list<int> RL[3];
 
-void create();
+void create(int p);
 void destroy(int j, int& npd);
 void request(int r);
 void release(int r);

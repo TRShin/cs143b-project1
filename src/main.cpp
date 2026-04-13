@@ -23,13 +23,17 @@ int main(int argc, char* argv[])
 		}
 
 		else if (a1 == "cr") {
-			create();
+			if (args >> val && val >= 0 && val < 3) {
+				create(val);
+			}
+			else continue;
 		}
 
 		else if (a1 == "de") {
 			int val, num_p_dest = 0;
 			if (args >> val) {
 				destroy(val, num_p_dest);
+				scheduler();
 				cout << num_p_dest << " processes destroyed" << endl;
 			}
 			else continue;
@@ -37,7 +41,7 @@ int main(int argc, char* argv[])
 
 		else if (a1 == "rq") {
 			int val;
-			if (args >> val) {
+			if (args >> val && val >= 0 && val < 4) {
 				request(val);
 			}
 			else continue;
@@ -45,7 +49,7 @@ int main(int argc, char* argv[])
 
 		else if (a1 == "rl") {
 			int val;
-			if (args >> val) {
+			if (args >> val && val >= 0 && val < 4) {
 				release(val);
 			}
 			else continue;
@@ -54,6 +58,7 @@ int main(int argc, char* argv[])
 		else if (a1 == "to") {
 			timeout();
 		}
+
 		else {
 			cout << "error" << endl;
 		}

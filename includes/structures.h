@@ -7,6 +7,7 @@ struct process
 {
 	bool state;				// Ready = TRUE, blocked = FALSE
 	int parent;
+	int priority;
 	list<int> children;
 	list<int> resources;
 };
