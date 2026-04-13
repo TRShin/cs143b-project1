@@ -107,14 +107,14 @@ void scheduler()
 // Initialize
 void init()
 {
-	// Potentially release resources
+	RL.clear();
 
 	/*
 	 * Process Control Block Init
 	 * false = blocked, true = ready
 	 */
-	PCB[0] = { false, 0, {}, {} }
-	for (int i = 1; i < 15; i++) {
+	PCB[0] = { true, 0, {}, {} };
+	for (int i = 1; i < 16; i++) {
 		PCB[i] = { false, 0, {}, {} };
 	}
 
@@ -125,7 +125,7 @@ void init()
 	 * Resource Control Block Init
 	 * false = free
 	 */
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 4; i++) {
 		RCB[i] = { false, {} };
 	}
 }

@@ -11,7 +11,7 @@ int main(int argc, char* argv[])
 
 	string line;
 	while (getline(cin, line)) {
-		if (line.emmpty()) continue;
+		if (line.empty()) continue;
 
 		stringstream args(line);
 		string a1;
@@ -38,7 +38,7 @@ int main(int argc, char* argv[])
 		else if (a1 == "rq") {
 			int val;
 			if (args >> val) {
-				request(val)
+				request(val);
 			}
 			else continue;
 		}
@@ -53,6 +53,9 @@ int main(int argc, char* argv[])
 
 		else if (a1 == "to") {
 			timeout();
+		}
+		else {
+			cout << "error" << endl;
 		}
 	}
 
