@@ -52,7 +52,10 @@ void destroy(int j, int &npd)
 
 		PCB[PCB[j].parent].children.remove(j);
 		RL[PCB[j].priority].remove(j);
-		for (int r = 0; r < 4; r++) RCB[r].waitlist.remove(j);
+
+		for (int r = 0; r < 4; r++) {
+			RCB[r].waitlist.remove_if([j](const std::pair<int, int>& p) { return p.first == j; });
+		}
 		release_all(j);
 		PCB[j] = { false, 0, 0, {}, {} };
 		npd++;
@@ -60,37 +63,49 @@ void destroy(int j, int &npd)
 }
 
 // Operations on Resources
-void request(int r)
+void request(int r, int num_rq)
 {
 	int curr_p_index = get_running(RL);
 
-	if (RCB[r].state == false) {
-		RCB[r].state = true;
+	if (num_rq > RCB[r].inventory) {
+		cout << "error" << endl;
+		return;
+	}
+
+	if (RCB[r].state >= num_rq) {
+		RCB[r].state -= num_rq;
 		PCB[curr_p_index].resources.push_back(r);
 		cout << "resource " << r << " allocated" << endl;
 	}
 	else {
 		PCB[curr_p_index].state = false;
 		RL[PCB[curr_p_index].priority].remove(curr_p_index);
-		RCB[r].waitlist.push_back(curr_p_index);
+		RCB[r].waitlist.emplace_back(curr_p_index, num_rq);
 		cout << "process " << curr_p_index << " blocked" << endl;
 		scheduler();
 	}	
 }
 
-void release(int r) 
+void release(int r, int num_rq) 
 {
 	int curr_p_index = get_running(RL);
-	
+	for (int i = 0; i < num_rq; i++) {
+		PCB[curr_p_index].resources.remove_if([](const pair<int, int>& p) { return p.first == j; });
 	PCB[curr_p_index].resources.remove(r);
-	if (RCB[r].waitlist.empty()) {
-		RCB[r].state = false;
-	}
-	else {
-		int wait_front_i = RCB[r].waitlist.front();
+	RCB[r].state += num_rq;
+
+	while (!RCB[r].waitlist.empty() && RCB[r].state >= RCB[r].waitlist.front().second) {
+		auto wait_entry = RCB[r].waitlist.front();
+		int wait_front_i = wait_entry.first;
+		int wait_req = wait_entry.second;
+
+		// Remove from waitlist, add to ready queue
 		RCB[r].waitlist.pop_front();
 		RL[PCB[wait_front_i].priority].push_back(wait_front_i);
 		PCB[wait_front_i].state = true;
+
+		// Assign correct num of resources
+		RCB[r].state -= num_rq;
 		PCB[wait_front_i].resources.push_back(r);
 	}
 
@@ -136,7 +151,8 @@ void init()
 	 * Resource Control Block Init
 	 * false = free
 	 */
-	for (int i = 0; i < 4; i++) {
-		RCB[i] = { false, {} };
-	}
+	RCB[0] = { 1, 1, {} };
+	RCB[1] = { 1, 1, {} };
+	RCB[2] = { 2, 2, {} };
+	RCB[3] = { 3, 3, {} };
 }

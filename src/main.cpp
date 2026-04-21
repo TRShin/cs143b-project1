@@ -40,17 +40,17 @@ int main(int argc, char* argv[])
 		}
 
 		else if (a1 == "rq") {
-			int val;
-			if (args >> val && val >= 0 && val < 4) {
-				request(val);
+			int val, num_rq = 0;
+			if (args >> val && val >= 0 && val < 4 && args >> num_rq) {
+				request(val, num_rq);
 			}
 			else continue;
 		}
 
 		else if (a1 == "rl") {
-			int val;
-			if (args >> val && val >= 0 && val < 4) {
-				release(val);
+			int val, num_rq = 0;
+			if (args >> val && val >= 0 && val < 4 && args >> num_rq) {
+				release(val, num_rq);
 			}
 			else continue;
 		}

@@ -6,11 +6,13 @@ void release_all(int j)
 	auto r_copy = PCB[j].resources;
 	for (auto i : r_copy) {
 		if (RCB[i].waitlist.empty()) {
-			RCB[i].state = false;
+			RCB[i].state = RCB[i].inventory;
 		}
 		else {
-			int wait_front_i = RCB[i].waitlist.front();
+			auto wait_entry = RCB[i].waitlist.front();
 			RCB[i].waitlist.pop_front();
+			int wait_front_i = wait_entry.first;
+			int wait_req = wait_entry.second;
 			RL[PCB[wait_front_i].priority].push_back(wait_front_i);
 			PCB[wait_front_i].state = true;
 			PCB[wait_front_i].resources.push_back(i);

@@ -1,7 +1,8 @@
 #pragma once
 
 #include <list>
-using std::list;
+#include <utility>
+using std::list, std::pair;
 
 struct process
 {
@@ -14,6 +15,7 @@ struct process
 
 struct resource
 {
-	bool state;				// Allocated = TRUE, else FALSE
-	list<int> waitlist;
+	int state;
+	int inventory;
+	list<pair<int, int>> waitlist; // first = process index, second = number of resources requested
 };
