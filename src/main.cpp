@@ -7,8 +7,6 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-	init();
-
 	string line;
 	while (getline(cin, line)) {
 		if (line.empty()) continue;
@@ -34,7 +32,6 @@ int main(int argc, char* argv[])
 			if (args >> val) {
 				destroy(val, num_p_dest);
 				scheduler();
-				cout << num_p_dest << " processes destroyed" << endl;
 			}
 			else continue;
 		}
@@ -60,8 +57,10 @@ int main(int argc, char* argv[])
 		}
 
 		else {
-			cout << "error" << endl;
+			cout << "-1 " << endl;
 		}
+
+		cout << "\n";
 	}
 
 	return 0;

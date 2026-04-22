@@ -2,7 +2,8 @@
 
 #include <list>
 #include <utility>
-using std::list, std::pair;
+using std::list;
+using std::pair;
 
 struct process
 {

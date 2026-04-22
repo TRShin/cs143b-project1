@@ -6,7 +6,7 @@ int count_resource_r(list<int> list, int r)
 	int count = 0;
 	auto it = list.begin();
 	while (it != list.end()) {
-		if (*it = r) { count++; it++; }
+		if (*it == r) { count++; it++; }
 		else { it++; }
 	}
 

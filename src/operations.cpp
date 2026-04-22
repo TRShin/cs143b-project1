@@ -1,6 +1,7 @@
 #include "operations.h"
 #include "helpers.h"
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 
@@ -19,10 +20,10 @@ void create(int p)
 		return e.state == false;
 		});
 	if (it != end(PCB)) {
-		index = it - begin(PCB);
+		index = static_cast<int>(it - begin(PCB));
 	}
 	else {
-		cout << "error" << endl;
+		cout << "-1 " << endl;
 		return;
 	}
 
@@ -35,8 +36,6 @@ void create(int p)
 
 	// Push back onto RL
 	RL[p].push_back(index);
-
-	cout << "Process " << index << " created" << endl;
 
 	scheduler();
 }
@@ -68,20 +67,18 @@ void request(int r, int num_rq)
 	int curr_p_index = get_running(RL);
 
 	if (num_rq + count_resource_r(PCB[curr_p_index].resources, r) > RCB[r].inventory) {
-		cout << "error" << endl;
+		cout << "-1 " << endl;
 		return;
 	}
 
 	if (RCB[r].state >= num_rq) {
 		RCB[r].state -= num_rq;
 		PCB[curr_p_index].resources.push_back(r);
-		cout << "resource " << r << " allocated" << endl;
 	}
 	else {
 		PCB[curr_p_index].state = false;
 		RL[PCB[curr_p_index].priority].remove(curr_p_index);
 		RCB[r].waitlist.emplace_back(curr_p_index, num_rq);
-		cout << "process " << curr_p_index << " blocked" << endl;
 		scheduler();
 	}
 }
@@ -121,7 +118,6 @@ void release(int r, int num_rq)
 	}
 
 	scheduler();
-	cout << "resource " << r << " released" << endl;
 }
 
 // Timesharing and the Scheduler
@@ -135,8 +131,7 @@ void timeout()
 
 void scheduler() 
 {
-	int highest_priority = get_running(RL);
-	cout << "process " << highest_priority << " running" << endl;
+	cout << get_running(RL) << " ";
 }
 
 // Initialize
@@ -166,4 +161,10 @@ void init()
 	RCB[1] = { 1, 1, {} };
 	RCB[2] = { 2, 2, {} };
 	RCB[3] = { 3, 3, {} };
+
+	static bool first = true;
+	if (!first) 
+		cout << "\n";
+	first = false;
+	cout << "0 ";
 }
