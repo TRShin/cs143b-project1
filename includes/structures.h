@@ -6,7 +6,7 @@ using std::list, std::pair;
 
 struct process
 {
-	bool state;				// Ready = TRUE, blocked = FALSE
+	bool state;					   // Ready = TRUE, blocked = FALSE
 	int parent;
 	int priority;
 	list<int> children;

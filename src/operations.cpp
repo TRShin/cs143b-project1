@@ -67,7 +67,7 @@ void request(int r, int num_rq)
 {
 	int curr_p_index = get_running(RL);
 
-	if (num_rq > RCB[r].inventory) {
+	if (num_rq + count_resource_r(PCB[curr_p_index].resources, r) > RCB[r].inventory) {
 		cout << "error" << endl;
 		return;
 	}
@@ -83,15 +83,24 @@ void request(int r, int num_rq)
 		RCB[r].waitlist.emplace_back(curr_p_index, num_rq);
 		cout << "process " << curr_p_index << " blocked" << endl;
 		scheduler();
-	}	
+	}
 }
 
 void release(int r, int num_rq) 
 {
 	int curr_p_index = get_running(RL);
-	for (int i = 0; i < num_rq; i++) {
-		PCB[curr_p_index].resources.remove_if([](const pair<int, int>& p) { return p.first == j; });
-	PCB[curr_p_index].resources.remove(r);
+
+	int num_requested = 0;
+	auto it = PCB[curr_p_index].resources.begin();
+	while (it != PCB[curr_p_index].resources.end() && num_requested < num_rq) {
+		if (*it == r) {
+			it = PCB[curr_p_index].resources.erase(it);
+			num_requested++;
+		}
+		else {
+			++it;
+		}
+	}
 	RCB[r].state += num_rq;
 
 	while (!RCB[r].waitlist.empty() && RCB[r].state >= RCB[r].waitlist.front().second) {
@@ -105,8 +114,10 @@ void release(int r, int num_rq)
 		PCB[wait_front_i].state = true;
 
 		// Assign correct num of resources
-		RCB[r].state -= num_rq;
-		PCB[wait_front_i].resources.push_back(r);
+		RCB[r].state -= wait_req;
+		for (int i = 0; i < wait_req; i++) {
+			PCB[wait_front_i].resources.push_back(r);
+		}
 	}
 
 	scheduler();
