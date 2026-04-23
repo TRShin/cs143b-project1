@@ -7,6 +7,7 @@ using std::pair;
 
 struct process
 {
+	bool slot_usage;
 	bool state;					   // Ready = TRUE, blocked = FALSE
 	int parent;
 	int priority;

@@ -15,10 +15,15 @@ void create(int p)
 {
 	int index;
 
+	if (count_if(begin(PCB), end(PCB), [](const auto& p) {return p.slot_usage;}) >= 16) {
+		cout << "-1 ";
+		return;
+	}
+
 	// Find next process to be created
 	auto it = find_if(begin(PCB), end(PCB), [](const auto& e) {
-		return e.state == false;
-		});
+		return e.slot_usage == false;
+	});
 	if (it != end(PCB)) {
 		index = static_cast<int>(it - begin(PCB));
 	}
@@ -32,7 +37,7 @@ void create(int p)
 	PCB[parent_index].children.push_back(index);
 
 	// Allocate new pcb[index]
-	PCB[index] = { true, parent_index, p, {}, {} };
+	PCB[index] = { true, true, parent_index, p, {}, {} };
 
 	// Push back onto RL
 	RL[p].push_back(index);
@@ -42,7 +47,7 @@ void create(int p)
 
 void destroy(int j, int &npd)
 {
-	if (j != 0)
+	if (j != 0 && PCB[j].slot_usage == true)
 	{
 		auto children_copy = PCB[j].children;
 		for (int i : children_copy) {
@@ -56,7 +61,7 @@ void destroy(int j, int &npd)
 			RCB[r].waitlist.remove_if([j](const std::pair<int, int>& p) { return p.first == j; });
 		}
 		release_all(j);
-		PCB[j] = { false, 0, 0, {}, {} };
+		PCB[j] = { false, false, 0, 0, {}, {} };
 		npd++;
 	}
 }
@@ -66,6 +71,11 @@ void request(int r, int num_rq)
 {
 	int curr_p_index = get_running(RL);
 
+	if (curr_p_index == 0) {
+		cout << "-1 ";
+		return;
+	}
+
 	if (num_rq + count_resource_r(PCB[curr_p_index].resources, r) > RCB[r].inventory) {
 		cout << "-1 " << endl;
 		return;
@@ -74,6 +84,7 @@ void request(int r, int num_rq)
 	if (RCB[r].state >= num_rq) {
 		RCB[r].state -= num_rq;
 		PCB[curr_p_index].resources.push_back(r);
+		scheduler();
 	}
 	else {
 		PCB[curr_p_index].state = false;
@@ -86,6 +97,11 @@ void request(int r, int num_rq)
 void release(int r, int num_rq) 
 {
 	int curr_p_index = get_running(RL);
+
+	if (count_resource_r(PCB[curr_p_index].resources, r) < num_rq) {
+		cout << "-1 ";
+		return;
+	}
 
 	int num_requested = 0;
 	auto it = PCB[curr_p_index].resources.begin();
@@ -145,9 +161,9 @@ void init()
 	 * Process Control Block Init
 	 * false = blocked, true = ready
 	 */
-	PCB[0] = { true, 0, 0, {}, {} };
+	PCB[0] = { true, true, 0, 0, {}, {} };
 	for (int i = 1; i < 16; i++) {
-		PCB[i] = { false, 0, 0, {}, {} };
+		PCB[i] = { false, false, 0, 0, {}, {} };
 	}
 
 	// Add process 0 to the Ready List, lowest level
