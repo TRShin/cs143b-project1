@@ -45,7 +45,7 @@ void create(int p)
 	scheduler();
 }
 
-void destroy(int j, int &npd)
+bool destroy(int j, int &npd)
 {
 	if (j != 0 && PCB[j].slot_usage == true)
 	{
@@ -63,6 +63,12 @@ void destroy(int j, int &npd)
 		release_all(j);
 		PCB[j] = { false, false, 0, 0, {}, {} };
 		npd++;
+		
+		return true;
+	}
+	else {
+		cout << "-1 ";
+		return false;
 	}
 }
 
@@ -77,13 +83,15 @@ void request(int r, int num_rq)
 	}
 
 	if (num_rq + count_resource_r(PCB[curr_p_index].resources, r) > RCB[r].inventory) {
-		cout << "-1 " << endl;
+		cout << "-1 ";
 		return;
 	}
 
 	if (RCB[r].state >= num_rq) {
 		RCB[r].state -= num_rq;
-		PCB[curr_p_index].resources.push_back(r);
+		for (int i = 0; i < num_rq; i++) {
+			PCB[curr_p_index].resources.push_back(r);
+		}
 		scheduler();
 	}
 	else {

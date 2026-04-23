@@ -22,3 +22,10 @@ CMakeFiles/
 cmake_install.cmake
 build.ninja
 CMakeSettings.json
+
+# Other
+143-p1/
+e_output.txt
+sample-input.txt
+sample-input2.txt
+a.out

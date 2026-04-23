@@ -24,24 +24,23 @@ int main(int argc, char* argv[])
 			if (args >> val && val >= 0 && val < 3) {
 				create(val);
 			}
-			else continue;
+			else cout << "-1 ";
 		}
 
 		else if (a1 == "de") {
 			int val, num_p_dest = 0;
 			if (args >> val) {
-				destroy(val, num_p_dest);
-				scheduler();
+				if (destroy(val, num_p_dest))
+					scheduler();
 			}
-			else continue;
-		}
+			else cout << "-1 ";		}
 
 		else if (a1 == "rq") {
 			int val, num_rq = 0;
 			if (args >> val && val >= 0 && val < 4 && args >> num_rq) {
 				request(val, num_rq);
 			}
-			else continue;
+			else cout << "-1 ";
 		}
 
 		else if (a1 == "rl") {
@@ -49,7 +48,7 @@ int main(int argc, char* argv[])
 			if (args >> val && val >= 0 && val < 4 && args >> num_rq) {
 				release(val, num_rq);
 			}
-			else continue;
+			else cout << "-1 ";
 		}
 
 		else if (a1 == "to") {
@@ -57,7 +56,7 @@ int main(int argc, char* argv[])
 		}
 
 		else {
-			cout << "-1 " << endl;
+			cout << "-1 ";
 		}
 	}
 
