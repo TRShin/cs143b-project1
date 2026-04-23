@@ -4,7 +4,7 @@ How to run (c++):
 1. Compile `main.cpp` by the following command: `g++ -Wall src/main.cpp src/helpers.cpp src/operations.cpp -Iincludes -o a.out`.
 2. Execute the object file by redirecting the submission test file as stdin and redirect the output to output.txt with: `./a.out < submission-input.txt > output.txt`.
 3. Or exeute the object file with `./a.out` and use the following set instructions in the table below:
-4. 
+
 | Shell command | Function |
 |---|---|
 | `cr <p>` | `create(p)` |
